@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminBatchFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
+use EasyCorp\Bundle\EasyAdminBundle\Search\QueryPaginator;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -604,7 +605,7 @@ trait AdminControllerTrait
      * @param string|null $sortDirection
      * @param string|null $dqlFilter
      *
-     * @return Paginator The paginated query results
+     * @return QueryPaginator The paginated query results
      */
     protected function findAll($entityClass, $page = 1, $maxPerPage = 15, $sortField = null, $sortDirection = null, $dqlFilter = null)
     {
@@ -622,7 +623,7 @@ trait AdminControllerTrait
             'sort_direction' => $sortDirection,
         ]);
 
-        return $this->get('easyadmin.paginator')->create($queryBuilder, $page, $maxPerPage);
+        return new QueryPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
@@ -653,7 +654,7 @@ trait AdminControllerTrait
      * @param string|null $sortDirection
      * @param string|null $dqlFilter
      *
-     * @return Paginator The paginated query results
+     * @return QueryPaginator The paginated query results
      */
     protected function findBy($entityClass, $searchQuery, array $searchableFields, $page = 1, $maxPerPage = 15, $sortField = null, $sortDirection = null, $dqlFilter = null)
     {
@@ -671,7 +672,7 @@ trait AdminControllerTrait
             'searchable_fields' => $searchableFields,
         ]);
 
-        return $this->get('easyadmin.paginator')->create($queryBuilder, $page, $maxPerPage);
+        return new QueryPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
